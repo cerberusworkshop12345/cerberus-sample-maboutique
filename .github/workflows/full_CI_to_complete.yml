@@ -47,3 +47,18 @@ jobs:
         author: ${{ github.event.pusher.name }}
         environment: UAT
         tag: ${TAG}
+  run_Tests_PROD:
+    needs: run_Tests_UAT
+    name: Run_Tests_PROD
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: cerberus-action
+      uses: cerberustesting/cerberus-github-action@v6
+      with:
+        host: https://jftl.cerberus-testing.fr
+        campaign: SanityCheck
+        apikey: ${{ secrets.APIKEY }}
+        author: ${{ github.event.pusher.name }}
+        environment: PROD
+        tag: ${TAG}
